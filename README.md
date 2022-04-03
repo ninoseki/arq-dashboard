@@ -20,7 +20,7 @@ A dashboard for [ARQ](https://github.com/samuelcolvin/arq) built with [FastAPI](
 ## Installation
 
 ```bash
-pip install arq_dashboard
+pip install arq-dashboard
 ```
 
 ## Docs
