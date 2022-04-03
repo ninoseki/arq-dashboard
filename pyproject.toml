@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "arq_dashboard"
+version = "0.1.0"
+description = ""
+authors = ["Manabu Niseki <manabu.niseki@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+aiometer = "^0.3.0"
+arq = "^0.22"
+arrow = "^1.2.2"
+async-cache = "^1.1.1"
+fastapi = "^0.75.1"
+importlib-metadata = {version = "^4.11.3", python = "<3.8"}
+loguru = "^0.6.0"
+pyhumps = "^3.5.3"
+uvicorn = {extras = ["standard"], version = "^0.17.6"}
+
+[tool.poetry.dev-dependencies]
+aiohttp = "^3.8.1"
+autoflake = "^1.4"
+autopep8 = "^1.6.0"
+black = "^22.3.0"
+flake8 = "^4.0.1"
+isort = "^5.10.1"
+mypy = "^0.942"
+pre-commit = "^2.18.1"
+pytest = "^6.2.5"
+pytest-asyncio = "^0.18.3"
+pytest-cov = "^3.0.0"
+pytest-mock = "^3.7.0"
+pytest-randomly = "^3.11.0"
+pytest-sugar = "^0.9.4"
+pyupgrade = "^2.31.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
