@@ -1,8 +1,12 @@
 [tool.poetry]
 name = "arq_dashboard"
-version = "0.1.0"
-description = ""
+version = "0.1.1"
+description = "A dashboard for ARQ built with FastAPI"
 authors = ["Manabu Niseki <manabu.niseki@gmail.com>"]
+license = "MIT"
+homepage = "https://github.com/ninoseki/arq-dashboard"
+repository = "https://github.com/ninoseki/arq-dashboard"
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
