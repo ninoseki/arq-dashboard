@@ -43,6 +43,4 @@ jobs:
           poetry install
 
       - name: Run tests
-        env:
-          TESTING_REDIS_HOST: redis
         run: poetry run pytest --cov=arq_dashboard
