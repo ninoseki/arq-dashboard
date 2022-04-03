@@ -1,8 +1,15 @@
 # arq-dashboard
 
+[![Python CI](https://github.com/ninoseki/arq-dashboard/actions/workflows/test.yml/badge.svg)](https://github.com/ninoseki/arq-dashboard/actions/workflows/test.yml)
+
 A dashboard for [ARQ](https://github.com/samuelcolvin/arq) built with [FastAPI](https://github.com/tiangolo/fastapi).
 
+## Screenshots
+
 ![img](./screenshots/stats.png)
+
+---
+
 ![img](./screenshots/jobs.png)
 
 ## Requirements
@@ -12,7 +19,7 @@ A dashboard for [ARQ](https://github.com/samuelcolvin/arq) built with [FastAPI](
 ## Installation
 
 ```bash
-pip install abuse_whois
+pip install arq_dashboard
 ```
 
 ## Docs
