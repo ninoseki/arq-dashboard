@@ -2,11 +2,10 @@ import asyncio
 from contextlib import suppress
 from dataclasses import dataclass
 from typing import Any, AsyncGenerator, Callable, List, Optional, Sequence, Union
-from unittest.mock import AsyncMock
 
 import pytest
 from arq import ArqRedis, Worker
-from arq.constants import job_key_prefix
+from arq.constants import default_queue_name, job_key_prefix
 from arq.jobs import Job
 from arq.typing import WorkerCoroutine
 from arq.worker import Function
@@ -121,14 +120,9 @@ async def unserializable_job(jobs_creator: JobsCreator) -> Job:
 
 
 @pytest.fixture
-async def client(mocker: MockerFixture, redis: ArqRedis):
-    async def override_get_redis(_setting):
-        yield redis
-
-    mocked = mocker.patch("arq_dashboard.queue.get_redis")
-    mocked.return_value.__aenter__.return_value = AsyncMock(
-        side_effect=override_get_redis
-    )
+async def client(mocker: MockerFixture):
+    queues = {default_queue_name: REDIS_SETTINGS}
+    mocker.patch("arq_dashboard.queue.settings.ARQ_QUEUES", queues)
 
     app = create_app()
     return TestClient(app)
