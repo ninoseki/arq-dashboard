@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "arq_dashboard"
-version = "0.1.1"
+version = "0.1.2"
 description = "A dashboard for ARQ built with FastAPI"
 authors = ["Manabu Niseki <manabu.niseki@gmail.com>"]
 license = "MIT"
