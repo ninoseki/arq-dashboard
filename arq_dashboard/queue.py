@@ -2,7 +2,7 @@
 import functools
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Set, Union
 
 import aiometer
 from arq import ArqRedis
@@ -17,6 +17,29 @@ from arq_dashboard.core import settings
 
 from .dependencies import get_redis
 from .errors import InvalidQueueNameError
+
+
+async def scan(redis: ArqRedis, match: str):
+    result = []
+    cur, keys = await redis.scan(cursor=0, match=match)
+    result.extend(keys)
+
+    while cur != 0:
+        cur, keys = await redis.scan(cursor=cur, match=match)
+        result.extend(keys)
+
+    return result
+
+
+async def get_result_job_ids(redis: ArqRedis) -> Set[str]:
+    result_keys = await scan(redis, f"{result_key_prefix}*")
+    return {key[len(result_key_prefix) :] for key in result_keys}
+
+
+async def get_job_ids(redis: ArqRedis, queue_name: str) -> Set[str]:
+    job_ids = set(await redis.zrangebyscore(queue_name))
+    job_ids |= await get_result_job_ids(redis)
+    return job_ids
 
 
 @dataclass
@@ -36,9 +59,7 @@ class Queue:
         self, status: Optional[JobStatus] = None
     ) -> List[schemas.JobInfo]:
         async with get_redis(self.redis_settings) as redis:
-            job_ids = set(await redis.zrangebyscore(self.name))
-            result_keys = await redis.keys(f"{result_key_prefix}*")
-            job_ids |= {key[len(result_key_prefix) :] for key in result_keys}
+            job_ids = await get_job_ids(redis, self.name)
 
             if status:
                 job_ids_list = list(job_ids)
@@ -80,9 +101,7 @@ class Queue:
 
     async def get_stats(self) -> schemas.QueueStats:
         async with get_redis(self.redis_settings) as redis:
-            job_ids = set(await redis.zrangebyscore(self.name))
-            result_keys = await redis.keys(f"{result_key_prefix}*")
-            job_ids |= {key[len(result_key_prefix) :] for key in result_keys}
+            job_ids = await get_job_ids(redis, self.name)
 
             statuses: List[JobStatus] = []
             if len(job_ids) > 0:
