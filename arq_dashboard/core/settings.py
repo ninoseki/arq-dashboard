@@ -35,7 +35,7 @@ ARQ_QUEUES = {
     )
 }
 
-MAX_AT_ONCE: Optional[int] = config("ARQ_DASHBOARD_MAX_AT_ONCE", cast=int, default=None)
+MAX_AT_ONCE: Optional[int] = config("ARQ_DASHBOARD_MAX_AT_ONCE", cast=int, default=10)
 MAX_PER_SECONDS: Optional[int] = config(
     "ARQ_DASHBOARD_MAX_PER_SECONDS", cast=int, default=None
 )
