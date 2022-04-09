@@ -39,3 +39,6 @@ MAX_AT_ONCE: Optional[int] = config("ARQ_DASHBOARD_MAX_AT_ONCE", cast=int, defau
 MAX_PER_SECONDS: Optional[int] = config(
     "ARQ_DASHBOARD_MAX_PER_SECONDS", cast=int, default=None
 )
+
+CACHE_TTL: int = config("ARQ_DASHBOARD_CACHE_TTL", cast=int, default=60)
+CACHE_MAX_SIZE: int = config("ARQ_DASHBOARD_CACHE_MAX_SIZE", cast=int, default=32)

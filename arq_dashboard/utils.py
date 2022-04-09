@@ -4,6 +4,7 @@ from typing import Set
 from arq.constants import default_queue_name
 from cache import AsyncTTL
 
+from arq_dashboard.core import settings
 from arq_dashboard.queue import Queue
 
 
@@ -12,7 +13,7 @@ class Metadata:
     functions: Set[str]
 
 
-@AsyncTTL(time_to_live=60 * 10, maxsize=1)
+@AsyncTTL(time_to_live=settings.CACHE_TTL, maxsize=settings.CACHE_MAX_SIZE)
 async def get_metadata(queue_name: str = default_queue_name) -> Metadata:
     queue = Queue.from_name(queue_name)
 

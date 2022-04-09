@@ -66,19 +66,21 @@ class Queue:
                 if len(job_ids_list) == 0:
                     return []
 
-                filtered_job_ids = await aiometer.run_all(
-                    [
-                        functools.partial(
-                            self._filter_job_by_status, redis, job_id, status
-                        )
-                        for job_id in job_ids_list
-                    ],
-                    max_at_once=settings.MAX_AT_ONCE,
-                    max_per_second=settings.MAX_PER_SECONDS,
+                filtered_job_ids = set(
+                    await aiometer.run_all(
+                        [
+                            functools.partial(
+                                self._filter_job_by_status, redis, job_id, status
+                            )
+                            for job_id in job_ids_list
+                        ],
+                        max_at_once=settings.MAX_AT_ONCE,
+                        max_per_second=settings.MAX_PER_SECONDS,
+                    )
                 )
-                job_ids = set(filtered_job_ids)
                 # remove None from the set
-                job_ids.discard(None)
+                filtered_job_ids.discard(None)
+                job_ids = filtered_job_ids
 
             if len(job_ids) == 0:
                 return []
