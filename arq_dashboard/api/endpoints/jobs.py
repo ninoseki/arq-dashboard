@@ -2,9 +2,11 @@ from datetime import datetime
 from typing import List, Optional
 
 from arq.jobs import JobStatus
+from cache import AsyncTTL
 from fastapi import APIRouter, Depends, HTTPException, Query
 
 from arq_dashboard import schemas
+from arq_dashboard.core import settings
 from arq_dashboard.dependencies import get_queue_name
 from arq_dashboard.queue import Queue
 
@@ -93,6 +95,16 @@ def apply_filters(
     return filtered_jobs
 
 
+@AsyncTTL(time_to_live=settings.CACHE_TTL, maxsize=settings.CACHE_MAX_SIZE)
+async def _get_jobs(
+    queue_name: str,
+    *,
+    status: Optional[JobStatus] = None,
+) -> List[schemas.JobInfo]:
+    queue = Queue.from_name(queue_name)
+    return await queue.get_jobs(status)
+
+
 @router.get("/", response_model=schemas.JobsWithPagination)
 async def get_jobs(
     page: int = 1,
@@ -104,8 +116,7 @@ async def get_jobs(
     *,
     queue_name: str = Depends(get_queue_name),
 ) -> schemas.JobsWithPagination:
-    queue = Queue.from_name(queue_name)
-    jobs = await queue.get_jobs(status=status)
+    jobs = await _get_jobs(queue_name, status=status)
 
     # filter jobs by conditions
     filtered_jobs = apply_filters(
@@ -130,16 +141,21 @@ async def get_jobs(
     )
 
 
+@AsyncTTL(time_to_live=settings.CACHE_TTL, maxsize=settings.CACHE_MAX_SIZE)
+async def _get_job_by_id(id: str, *, queue_name: str) -> schemas.CachedJobInfo:
+    queue = Queue.from_name(queue_name)
+    job_info = await queue.get_job_by_id(id)
+    return schemas.CachedJobInfo.parse_obj(job_info.dict())
+
+
 @router.get(
     "/{id}",
-    response_model=schemas.JobInfo,
+    response_model=schemas.CachedJobInfo,
 )
 async def get_job_by_id(
     id: str, *, queue_name: str = Depends(get_queue_name)
-) -> schemas.JobInfo:
-    queue = Queue.from_name(queue_name)
-    job = await queue.get_job_by_id(id)
-
+) -> schemas.CachedJobInfo:
+    job = await _get_job_by_id(id, queue_name=queue_name)
     if job.status == "not_found":
         raise HTTPException(status_code=404, detail=f"Job:{id} not found")
 

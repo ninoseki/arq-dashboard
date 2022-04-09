@@ -1,11 +1,12 @@
 from .api_model import APIModel
+from .mixins import CachedAtMixin
 
 
 class Queue(APIModel):
     name: str
 
 
-class QueueStats(APIModel):
+class QueueStats(CachedAtMixin, APIModel):
     name: str
     host: str
     port: int

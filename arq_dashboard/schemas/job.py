@@ -5,6 +5,7 @@ from arq.jobs import JobDef as ArqJobDef
 from arq.jobs import JobResult, JobStatus
 
 from .api_model import APIModel
+from .mixins import CachedAtMixin
 from .pagination import Pagination
 
 
@@ -52,5 +53,9 @@ class JobInfo(JobDef):
         return obj
 
 
-class JobsWithPagination(Pagination):
+class CachedJobInfo(CachedAtMixin, JobInfo):
+    pass
+
+
+class JobsWithPagination(CachedAtMixin, Pagination):
     jobs: List[JobInfo]
