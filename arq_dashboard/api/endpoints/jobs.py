@@ -137,7 +137,10 @@ async def get_jobs(
     )
 
     return schemas.JobsWithPagination(
-        jobs=filtered_and_paginated_jobs, total=total, currentPage=page, page_size=limit
+        jobs=filtered_and_paginated_jobs,
+        total=total,
+        current_page=page,
+        page_size=limit,
     )
 
 
