@@ -7,11 +7,11 @@ A dashboard for [ARQ](https://github.com/samuelcolvin/arq) built with [FastAPI](
 
 ## Screenshots
 
-![img](./screenshots/stats.png)
+![img](https://raw.githubusercontent.com/ninoseki/arq-dashboard/main/screenshots/stats.png)
 
 ---
 
-![img](./screenshots/jobs.png)
+![img](https://raw.githubusercontent.com/ninoseki/arq-dashboard/main/screenshots/jobs.png)
 
 ## Requirements
 
