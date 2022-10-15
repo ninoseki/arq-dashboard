@@ -1,8 +1,8 @@
-from humps import camelize
+import humps
 from pydantic import BaseModel
 
 
 class APIModel(BaseModel):
     class Config:
-        alias_generator = camelize
+        alias_generator = humps.camelize
         allow_population_by_field_name = True
