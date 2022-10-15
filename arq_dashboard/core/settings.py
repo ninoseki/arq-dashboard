@@ -30,7 +30,7 @@ ARQ_DESERIALIZER: Optional[Deserializer] = None
 ARQ_QUEUES = {
     default_queue_name: RedisSettings(
         host=str(REDIS_URL.hostname),
-        port=str(REDIS_URL.port),
+        port=REDIS_URL.port or 6379,
         password=REDIS_URL.password,
     )
 }

@@ -15,9 +15,10 @@ async def get_redis(settings: RedisSettings) -> AsyncGenerator[ArqRedis, None]:
         redis = await create_pool(settings_=settings)
         yield redis
     finally:
-        if redis is not None:
-            redis.close()
-            await redis.wait_closed()
+        if redis is None:
+            return
+
+        await redis.close()
 
 
 def get_queue_name(
