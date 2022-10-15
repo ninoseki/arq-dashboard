@@ -3,7 +3,7 @@ from contextlib import suppress
 from dataclasses import dataclass
 from typing import Any, AsyncGenerator, Callable, List, Optional, Sequence, Union
 
-import pytest
+import pytest_asyncio
 from arq import ArqRedis, Worker
 from arq.constants import default_queue_name, job_key_prefix
 from arq.jobs import Job
@@ -18,14 +18,14 @@ from arq_dashboard.dependencies import get_redis
 from .settings import REDIS_SETTINGS
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def redis() -> AsyncGenerator[ArqRedis, None]:
     async with get_redis(REDIS_SETTINGS) as redis:
         await redis.flushall()
         yield redis
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def create_worker(
     redis: ArqRedis,
 ) -> AsyncGenerator[Callable[[Any], Worker], None]:
@@ -96,7 +96,7 @@ class JobsCreator:
         return job
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def jobs_creator(redis: ArqRedis, create_worker: Any) -> JobsCreator:
     worker = create_worker(
         functions=[deferred_task, running_task, successful_task, failed_task]
@@ -104,7 +104,7 @@ async def jobs_creator(redis: ArqRedis, create_worker: Any) -> JobsCreator:
     return JobsCreator(worker=worker, redis=redis)
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def all_jobs(jobs_creator: JobsCreator) -> List[Job]:
     # the order matters
     return [
@@ -114,12 +114,12 @@ async def all_jobs(jobs_creator: JobsCreator) -> List[Job]:
     ]
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def unserializable_job(jobs_creator: JobsCreator) -> Job:
     return await jobs_creator.create_unserializable()
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def client(mocker: MockerFixture):
     queues = {default_queue_name: REDIS_SETTINGS}
     mocker.patch("arq_dashboard.queue.settings.ARQ_QUEUES", queues)
