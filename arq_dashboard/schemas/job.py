@@ -52,9 +52,9 @@ class JobInfo(JobDef):
         return obj
 
 
-class CachedJobInfo(CachedAtMixin, JobInfo):
+class CachedJobInfo(CachedAtMixin, JobInfo, APIModel):
     pass
 
 
-class JobsWithPagination(CachedAtMixin, PaginationMixin):
+class JobsWithPagination(CachedAtMixin, PaginationMixin, APIModel):
     jobs: List[JobInfo]

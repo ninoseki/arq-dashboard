@@ -1,4 +1,4 @@
-# Froked from https://github.com/SlavaSkvortsov/arq-django-admin
+# Forked from https://github.com/SlavaSkvortsov/arq-django-admin
 import functools
 from dataclasses import dataclass
 from datetime import datetime
@@ -37,9 +37,9 @@ async def get_result_job_ids(redis: ArqRedis) -> Set[str]:
 
 
 async def get_job_ids(redis: ArqRedis, queue_name: str) -> Set[str]:
-    job_ids = set(await redis.zrangebyscore(queue_name))
+    job_ids = set(await redis.zrangebyscore(queue_name, "-inf", "inf"))
     job_ids |= await get_result_job_ids(redis)
-    return job_ids
+    return {job_id.decode() for job_id in job_ids}
 
 
 @dataclass
