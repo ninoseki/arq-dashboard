@@ -343,7 +343,7 @@ python-versions = ">=3.5"
 name = "importlib-metadata"
 version = "5.0.0"
 description = "Read metadata from Python packages"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -917,7 +917,7 @@ multidict = ">=4.0"
 name = "zipp"
 version = "3.9.0"
 description = "Backport of pathlib-compatible object wrapper for zip files"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -928,7 +928,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "flake8 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "b88bb5cfa730ea69222d14520601d0b4f89d3aa9ef453feaccf6e7ab84fcfe5b"
+content-hash = "742acc8ff1dae1b5cb8ff919fbb084cb878baf12ab500cb9eb7d325bcc05116c"
 
 [metadata.files]
 aiohttp = []

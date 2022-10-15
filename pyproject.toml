@@ -15,7 +15,6 @@ arq = "^0.24"
 arrow = "^1.2.3"
 async-cache = "^1.1.1"
 fastapi = "^0.85.1"
-importlib-metadata = {version = "^5.0.0", python = "<3.8"}
 loguru = "^0.6.0"
 pyhumps = "^3.7.3"
 uvicorn = {extras = ["standard"], version = "^0.18.3"}
