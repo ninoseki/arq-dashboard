@@ -56,7 +56,7 @@ async def deferred_task(_ctx: Any) -> None:
 
 
 async def running_task(_ctx: Any) -> None:
-    await asyncio.sleep(0.2)
+    await asyncio.sleep(0.5)
 
 
 async def successful_task(_ctx: Any) -> None:
