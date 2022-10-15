@@ -14,7 +14,7 @@ from .settings import REDIS_SETTINGS
 @pytest.mark.asyncio
 async def test_all_get_jobs(all_jobs: List[Job]) -> None:
     queue = Queue(default_queue_name, REDIS_SETTINGS)
-    assert len(await queue.get_jobs()) == 3
+    assert len(await queue.get_jobs()) == 4
 
 
 @pytest.mark.asyncio
@@ -23,6 +23,7 @@ async def test_status_filter(all_jobs: List[Job]) -> None:
     assert len(await queue.get_jobs(JobStatus.deferred)) == 1
     assert len(await queue.get_jobs(JobStatus.in_progress)) == 1
     assert len(await queue.get_jobs(JobStatus.queued)) == 1
+    assert len(await queue.get_jobs(JobStatus.complete)) == 1
 
 
 @pytest.mark.asyncio
