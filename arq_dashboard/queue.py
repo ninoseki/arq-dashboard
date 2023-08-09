@@ -63,7 +63,7 @@ class Queue:
 
             if status:
                 job_ids_list = list(job_ids)
-                if len(job_ids_list) == 0:
+                if not job_ids_list:
                     return []
 
                 filtered_job_ids = set(
