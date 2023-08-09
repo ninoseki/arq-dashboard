@@ -17,27 +17,18 @@ def filter_by_start_time(job: schemas.JobInfo, start_time: Optional[datetime]):
     if start_time is None:
         return True
 
-    if job.start_time is None:
-        return True
-
-    return job.start_time >= start_time
+    return True if job.start_time is None else job.start_time >= start_time
 
 
 def filter_by_finish_time(job: schemas.JobInfo, finish_time: Optional[datetime]):
     if finish_time is None:
         return True
 
-    if job.finish_time is None:
-        return True
-
-    return job.finish_time <= finish_time
+    return True if job.finish_time is None else job.finish_time <= finish_time
 
 
 def filter_by_function(job: schemas.JobInfo, func: Optional[str]):
-    if func is None:
-        return True
-
-    return job.function == func
+    return True if func is None else job.function == func
 
 
 def filter_by_queue_name(
@@ -50,10 +41,7 @@ def filter_by_queue_name(
 
 
 def filter_by_success(job: schemas.JobInfo, success: Optional[bool]):
-    if success is None:
-        return True
-
-    return job.success is success
+    return True if success is None else job.success is success
 
 
 def filter_by_limit_and_offset(jobs: List[schemas.JobInfo], limit: int, offset: int):
