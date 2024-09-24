@@ -45,7 +45,7 @@ class DatabaseURL:
         if self.components.username:
             info = self.components.username
             if self.components.password:
-                info += ":" + self.components.password
+                info += f":{self.components.password}"
             return info.encode("utf-8")
         return None
 
@@ -131,9 +131,7 @@ class DatabaseURL:
 
     @property
     def obscure_password(self) -> str:
-        if self.password:
-            return self.replace(password="********")._url
-        return self._url
+        return self.replace(password="********")._url if self.password else self._url
 
     def __str__(self) -> str:
         return self._url

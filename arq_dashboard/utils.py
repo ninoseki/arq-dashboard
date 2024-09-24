@@ -19,9 +19,5 @@ async def get_metadata(queue_name: str = default_queue_name) -> Metadata:
 
     jobs = await queue.get_jobs()
 
-    functions: Set[str] = set()
-
-    for job in jobs:
-        functions.add(job.function)
-
+    functions: Set[str] = {job.function for job in jobs}
     return Metadata(functions=functions)

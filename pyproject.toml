@@ -9,7 +9,7 @@ repository = "https://github.com/ninoseki/arq-dashboard"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.8,<3.12"
 aiometer = "^0.3.0"
 arq = "^0.24"
 arrow = "^1.2.3"
